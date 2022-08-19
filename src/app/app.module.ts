@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IndexComponent } from './index/index.component';
 import {RouteReuseStrategy} from "@angular/router";
-import {ReuseListRouteReuseStrategyService} from "./reuse-list-route-reuse-strategy.service";
+import {ReuseEmployeeRouteReuseStrategyService} from "./reuse-employee-route-reuse-strategy.service";
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import {ReuseListRouteReuseStrategyService} from "./reuse-list-route-reuse-strat
   ],
   providers: [{
     provide: RouteReuseStrategy,
-    useClass: ReuseListRouteReuseStrategyService,
+    useClass: ReuseEmployeeRouteReuseStrategyService,
   }],
   bootstrap: [AppComponent]
 })
