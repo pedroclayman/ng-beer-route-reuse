@@ -11,7 +11,7 @@ export class EmployeeDetailPageComponent implements OnInit {
   readonly employee: Employee | undefined;
 
   constructor(activatedRoute: ActivatedRoute) {
-    this.employee = (activatedRoute.snapshot.data.employees as Employee[]).find(employee => employee.id === activatedRoute.snapshot.params['id']);
+    this.employee = activatedRoute.snapshot.data.employee as Employee;
   }
 
   ngOnInit(): void {

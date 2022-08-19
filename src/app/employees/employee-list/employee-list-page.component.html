@@ -1,6 +1,6 @@
 <app-expensive></app-expensive>
 <ul>
   <li *ngFor="let employee of employees">
-    <a [routerLink]="['/employees', employee.id]">{{ employee.name }} - {{ employee.random }}</a>
+    <a [routerLink]="['/employees', employee.id]">{{ employee.name }} - {{ employee.random }}</a> - <a [routerLink]="['/employees', employee.id, 'history']">history</a>
   </li>
 </ul>
