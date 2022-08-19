@@ -1,2 +1,6 @@
-<p>employee-list works!</p>
 <app-expensive></app-expensive>
+<ul>
+  <li *ngFor="let employee of employees">
+    <a [routerLink]="['/employees', employee.id]">{{ employee.name }} - {{ employee.random }}</a>
+  </li>
+</ul>
