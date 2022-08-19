@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployeeListPageComponent } from './employee-list/employee-list-page.component';
-import {RouterModule, Routes} from "@angular/router";
+import { RouterModule, Routes } from "@angular/router";
+import { ExpensiveComponent } from './expensive/expensive.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     EmployeeListPageComponent,
+    ExpensiveComponent
   ],
   imports: [
     CommonModule,
