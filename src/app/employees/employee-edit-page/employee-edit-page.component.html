@@ -1,0 +1,14 @@
+<h1>Editing {{ employee?.name }}</h1>
+<label>
+  Name:
+  <input
+    [ngModel]="employee?.name"
+    (ngModelChange)="onEmployeeNameChange($event)"
+    type="text"
+  >
+  <button
+    type="button"
+    (click)="onSaveClick()"
+  >Save</button>
+</label>
+

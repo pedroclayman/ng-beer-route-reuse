@@ -13,6 +13,8 @@ import {ExpensiveComponent} from './expensive/expensive.component';
 import {EmployeeDetailPageComponent} from './employee-detail-page/employee-detail-page.component';
 import {Employee} from "./employees.types";
 import { EmployeeHistoryPageComponent } from './employee-history-page/employee-history-page.component';
+import { EmployeeEditPageComponent } from './employee-edit-page/employee-edit-page.component';
+import {FormsModule} from "@angular/forms";
 
 const getParentResolve = <TResult>(route: ActivatedRouteSnapshot, dataProperty: string): TResult | undefined => {
   const value = route.data[dataProperty];
@@ -69,6 +71,10 @@ const routes: Routes = [
             component: EmployeeDetailPageComponent,
           },
           {
+            path: 'edit',
+            component: EmployeeEditPageComponent,
+          },
+          {
             path: 'history',
             component: EmployeeHistoryPageComponent,
           },
@@ -89,11 +95,13 @@ const routes: Routes = [
     EmployeeListPageComponent,
     ExpensiveComponent,
     EmployeeDetailPageComponent,
-    EmployeeHistoryPageComponent
+    EmployeeHistoryPageComponent,
+    EmployeeEditPageComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    FormsModule,
   ]
 })
 export class EmployeesModule { }
