@@ -1,5 +1,5 @@
 export interface Employee {
   id: string;
   name: string;
-  random: number;
+  timestamp: string;
 }

@@ -15,6 +15,9 @@ import {Employee} from "./employees.types";
 import { EmployeeHistoryPageComponent } from './employee-history-page/employee-history-page.component';
 import { EmployeeEditPageComponent } from './employee-edit-page/employee-edit-page.component';
 import {FormsModule} from "@angular/forms";
+import {EmployeesStateService} from "./services/employees-state.service";
+import {Observable} from "rxjs";
+import {take} from "rxjs/operators";
 
 const getParentResolve = <TResult>(route: ActivatedRouteSnapshot, dataProperty: string): TResult | undefined => {
   const value = route.data[dataProperty];
@@ -30,16 +33,12 @@ const getParentResolve = <TResult>(route: ActivatedRouteSnapshot, dataProperty: 
 
 @Injectable({ providedIn: 'root' })
 export class EmployeesResolver implements Resolve<Employee[]> {
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Employee[] {
-    console.log('resolving employees');
+  constructor(private employeesStateService: EmployeesStateService) {}
 
-    return [
-      { id: '1', name: 'Adam', random: Math.random() },
-      { id: '2', name: 'Bertha', random: Math.random() },
-      { id: '3', name: 'Celeste', random: Math.random() },
-      { id: '4', name: 'Daniel', random: Math.random() },
-      { id: '5', name: 'Eric', random: Math.random() },
-    ];
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Employee[]> {
+    console.log('resolving employees');
+    this.employeesStateService.invalidateCache();
+    return this.employeesStateService.employees$.pipe(take(1));
   }
 }
 
@@ -47,7 +46,7 @@ export class EmployeesResolver implements Resolve<Employee[]> {
 export class EmployeeDetailResolver implements Resolve<Employee | undefined> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Employee | undefined {
-    console.log('resolving employee');
+    console.log('resolving single employee');
 
     const employees = getParentResolve<Employee[]>(route, 'employees');
     return employees?.find(employee => employee.id === route.params['id']);

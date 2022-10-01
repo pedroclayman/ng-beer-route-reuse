@@ -1,8 +1,24 @@
 <app-expensive></app-expensive>
-<ul>
-  <li *ngFor="let employee of employees">
-    <a [routerLink]="['/employees', employee.id]">{{ employee.name }} - {{ employee.random }}</a> -
-    <a [routerLink]="['/employees', employee.id, 'edit']">edit</a> -
-    <a [routerLink]="['/employees', employee.id, 'history']">history</a>
-  </li>
-</ul>
+<p>Constructed before: {{ aliveFor$ | async }}</p>
+
+<div class="block">
+  <h2>Data from resolver</h2>
+  <ul>
+    <li *ngFor="let employee of employees">
+      <a [routerLink]="['/employees', employee.id]">{{ employee.name }} - {{ employee.timestamp }}</a> -
+      <a [routerLink]="['/employees', employee.id, 'edit']">edit</a> -
+      <a [routerLink]="['/employees', employee.id, 'history']">history</a>
+    </li>
+  </ul>
+</div>
+
+<div class="block">
+  <h2>Data from stateful service</h2>
+  <ul>
+    <li *ngFor="let employee of employeesFromStateService$ | async">
+      <a [routerLink]="['/employees', employee.id]">{{ employee.name }} - {{ employee.timestamp }}</a> -
+      <a [routerLink]="['/employees', employee.id, 'edit']">edit</a> -
+      <a [routerLink]="['/employees', employee.id, 'history']">history</a>
+    </li>
+  </ul>
+</div>
