@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Employee} from "../employees.types";
 import {ActivatedRoute} from "@angular/router";
 import {interval, Subject} from "rxjs";
-import {map, takeUntil, tap} from "rxjs/operators";
+import {map, takeUntil} from "rxjs/operators";
 import {EmployeesStateService} from "../services/employees-state.service";
 
 @Component({

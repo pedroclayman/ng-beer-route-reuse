@@ -4,7 +4,7 @@
 <div class="block">
   <h2>Data from resolver</h2>
   <ul>
-    <li *ngFor="let employee of employees">
+  <li *ngFor="let employee of employees">
       <a [routerLink]="['/employees', employee.id]">{{ employee.name }} - {{ employee.timestamp }}</a> -
       <a [routerLink]="['/employees', employee.id, 'edit']">edit</a> -
       <a [routerLink]="['/employees', employee.id, 'history']">history</a>

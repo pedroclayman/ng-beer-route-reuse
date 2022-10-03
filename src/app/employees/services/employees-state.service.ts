@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, of, Subject} from "rxjs";
+import {Injectable, OnDestroy} from '@angular/core';
+import {Observable, of, ReplaySubject, Subject} from "rxjs";
 import {Employee} from "../employees.types";
-import {delay, publishReplay, share, shareReplay, switchMap, take, tap} from "rxjs/operators";
+import {delay, filter, switchMap, takeUntil, tap} from "rxjs/operators";
 
 const fakeEmployeesViaHttp: () => Observable<Employee[]> = () => {
   const timestamp = new Intl.DateTimeFormat('sk-SK', {hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(new Date());
@@ -21,30 +21,33 @@ const fakeEmployeesViaHttp: () => Observable<Employee[]> = () => {
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeesStateService {
-  readonly employees$: Observable<Employee[]>;
-  private readonly cacheInvalidated = new BehaviorSubject<void>(undefined);
+export class EmployeesStateService implements OnDestroy {
+  private readonly cacheInvalidated = new Subject<void>();
 
-  private employeeCache: Employee[] | null = null;
-
-  constructor() {
-    this.employees$ = this.cacheInvalidated.pipe(
-      switchMap(() => {
-        if (!this.employeeCache) {
-          return fakeEmployeesViaHttp()
-            .pipe(
-              tap(employees => this.employeeCache = employees)
-            );
-        }
-        return of(this.employeeCache);
-      }),
-      share()
+  private employeeCache = new ReplaySubject<Employee[]>(1);
+  readonly employees$ = this.employeeCache.asObservable()
+    .pipe(
+      filter(() => this.hasFreshData)
     );
 
+  private readonly destroy$ = new Subject<void>();
+  private hasFreshData = false;
+
+  constructor() {
+    this.cacheInvalidated.pipe(
+      takeUntil(this.destroy$),
+      switchMap(() => fakeEmployeesViaHttp()),
+      tap(() => this.hasFreshData = true)
+    ).subscribe(employees => this.employeeCache.next(employees));
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   invalidateCache() {
-    this.employeeCache = null;
+    this.hasFreshData = false;
     this.cacheInvalidated.next();
   }
 }
